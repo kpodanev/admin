@@ -4,16 +4,16 @@ $mysqli = mysqli_connect("127.0.0.1", "root", "", "shop");
 if (mysqli_connect_errno($mysqli)) {
     echo "Не удалось подключиться" . mysqli_connect_error();
 }
-if(isset($_POST['id']) && isset($_POST['title']) && isset($_POST['description']) && isset($_POST['created_at'])){
-    $id = htmlentities(mysqli_real_escape_string($mysqli, $_POST['id']));
+if(isset($_POST['title']) && isset($_POST['description'])){
     $title = htmlentities(mysqli_real_escape_string($mysqli, $_POST['title']));
     $description = htmlentities(mysqli_real_escape_string($mysqli, $_POST['description']));
-    $created_at = htmlentities(mysqli_real_escape_string($mysqli, $_POST['created_at']));
-    $query ="INSERT INTO articles VALUES('id', '$title','$description','$created_at')";
+    $query ="INSERT INTO articles (title, description) VALUES('$title','$description')";
     $result = mysqli_query($mysqli, $query) or die("Ошибка " . mysqli_error($mysqli)); 
     if($result)
     {
-        echo "<span style='color:blue;'>Данные добавлены</span>";
+        ?>
+        <a href="../index.php"><span style='color:blue;'>Данные добавлены</span></a>
+    <?php
     }
     
 }
@@ -28,14 +28,10 @@ mysqli_close($mysqli);
 <body>
     <h2>Добавить новую статью</h2>
     <form method="POST">
-    <p>ID:<br>
-    <input type="text" name="id" /></p>
     <p>Введите название:<br> 
     <input type="text" name="title" /></p>
     <p>Путь: <br> 
     <input type="text" name="description" /></p>
-    <p>Дата создания: <br>
-    <input type="text" name="created_at" /></p>
     <input type="submit" value="Добавить">
     </form>
 </body>
